@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        dialog.cpp
+        dialog.cpp\
+        garecognizer.cpp
 
-HEADERS  += dialog.h
+HEADERS  += dialog.h\
+        garecognizer.h
 
 FORMS    += dialog.ui
 
