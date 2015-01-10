@@ -97,10 +97,10 @@ void trainWithCSV(string rootDir) {
     //ageRecognizer->train(images, ageLabels);
 }
 
-GARecognizer::GARecognizer(string csvFileName)
+GARecognizer::GARecognizer(string rootDir)
 {
     genderRecognizer = createFisherFaceRecognizer();
     ageRecognizer = createFisherFaceRecognizer();
 
-    trainWithCSV(csvFileName);
+    trainWithCSV(rootDir);
 }
