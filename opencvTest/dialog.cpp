@@ -10,7 +10,7 @@ Dialog::Dialog(QWidget *parent) : QDialog(parent), ui(new Ui::Dialog)
 {
     ui->setupUi(this);
 
-    capWebcam.open(0);
+    capWebcam.open(1);
 
     tmrTimer = new QTimer(this);
     connect(tmrTimer, SIGNAL(timeout()), this, SLOT(processFrameAndUpdateGUI()));
@@ -87,7 +87,7 @@ void Dialog::detectAndDisplay(Mat frame)
    equalizeHist(frame_gray, frame_gray);
 
    //Detect faces
-   face_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0, Size(80, 80));
+   face_cascade.detectMultiScale(frame_gray, faces, 1.05, 1, 0, Size(80, 80),Size(240, 240));
 
    //for(size_t i = 0; i < faces.size(); i++)
    for(Rect face: faces)
@@ -100,8 +100,14 @@ void Dialog::detectAndDisplay(Mat frame)
        if( eyes.size() == 2)
        {
            //Draw the face
-           Point center(face.x + face.width/2, face.y + face.height/2);
-           ellipse(frame, center, Size( face.width/2, face.height/2), 0, 0, 360, Scalar( 255, 0, 0 ), 2, 8, 0);
+           //Point center(face.x + face.width/2, face.y + face.height/2);
+           //ellipse(frame, center, Size( face.width/2, face.height/2), 0, 0, 360, Scalar( 255, 0, 0 ), 2, 8, 0);
+           Point leftTop(face.x, face.y);
+           Point bottomRight(face.x + face.width, face.y + face.height);
+           Point krakusWill(face.x + 167, face.y + 191);
+           printf("width %d and height %d \n",face.width, face.height);
+           rectangle(frame,leftTop,bottomRight,Scalar( 255, 0, 0 ));
+           rectangle(frame,leftTop,krakusWill,Scalar( 255, 0, 255 ));
 
           for(Rect eye: eyes)
           {

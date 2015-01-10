@@ -22,8 +22,8 @@ HEADERS  += dialog.h\
 FORMS    += dialog.ui
 
 CONFIG += c++11
-INCLUDEPATH += C://opencv-mingw//install//include
-LIBS += -LC://opencv-mingw//bin \
+INCLUDEPATH += C://opencvrelease//install//include
+LIBS += -LC://opencvrelease//bin \
     libopencv_contrib249 \
     libopencv_core249 \
     libopencv_features2d249 \
