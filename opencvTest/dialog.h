@@ -41,8 +41,6 @@ private:
 
     QTimer* tmrTimer;
 
-
-
     string window_name = "Capture - Face detection";
 
     //RNG rng(12345);
