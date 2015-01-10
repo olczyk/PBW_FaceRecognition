@@ -25,8 +25,8 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
-    string face_cascade_name = "lbpcascade_frontalface.xml";
-    string eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
+    string face_cascade_name = "../opencvTest/lbpcascade_frontalface.xml";
+    string eyes_cascade_name = "../opencvTest/haarcascade_eye_tree_eyeglasses.xml";
     CascadeClassifier face_cascade;
     CascadeClassifier eyes_cascade;
 
