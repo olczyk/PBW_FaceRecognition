@@ -11,6 +11,7 @@ class GARecognizer
 public:
     GARecognizer(string rootDir);
     string estimateGender(Mat sample);
+    string estimateAgeRange(Mat sample);
 };
 
 #endif // GARECOGNIZER_H
