@@ -27,8 +27,10 @@ public:
     ~Dialog();
     string face_cascade_name = "../opencvTest/lbpcascade_frontalface.xml";
     string eyes_cascade_name = "../opencvTest/haarcascade_eye_tree_eyeglasses.xml";
+    string nose_cascade_name = "../opencvTest/haarcascade_mcs_nose.xml";
     CascadeClassifier face_cascade;
     CascadeClassifier eyes_cascade;
+    CascadeClassifier nose_cascade;
 
 private:
     Ui::Dialog *ui;
