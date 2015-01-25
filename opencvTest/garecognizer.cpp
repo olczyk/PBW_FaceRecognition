@@ -68,7 +68,7 @@ void trainWithCSV(string rootDir) {
 
     cout << "loading data..." << endl;
 
-    string line, path, genderLabel, ageLabel = "0";
+    string line, path, genderLabel, ageLabel;
     int lineCount = 0;
     while (getline(file, line)) {
         lineCount++;
@@ -77,12 +77,12 @@ void trainWithCSV(string rootDir) {
         stringstream liness(line);
         getline(liness, path, separator);
         getline(liness, genderLabel);
-        if(!path.empty() && !genderLabel.empty()/* && !ageLabel.empty()*/) {
+        ageLabel = genderLabel;
+        if(!path.empty() && !genderLabel.empty() && !ageLabel.empty()) {
             images.push_back(imread(rootDir + "/" + path, 0));
 
             int genderValue = isFemale(genderLabel) ? FEMALE : MALE;
             genderLabels.push_back(genderValue);
-
             ageLabels.push_back(atoi(ageLabel.c_str()));
         }
     }
@@ -93,8 +93,8 @@ void trainWithCSV(string rootDir) {
 
     cout << "training..." << endl;
     genderRecognizer->train(images, genderLabels);
+    ageRecognizer->train(images, ageLabels);
     cout << "training complete" << endl;
-    //ageRecognizer->train(images, ageLabels);
 }
 
 GARecognizer::GARecognizer(string rootDir)

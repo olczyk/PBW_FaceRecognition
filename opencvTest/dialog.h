@@ -11,6 +11,8 @@
 #include <iostream>
 #include <stdio.h>
 
+#include "garecognizer.h"
+
 using namespace std;
 using namespace cv;
 
@@ -32,6 +34,29 @@ public:
     CascadeClassifier eyes_cascade;
     CascadeClassifier nose_cascade;
 
+    // path to save images
+        string imagePath = "/Users/piotrbienias/Documents/opencvPhotos/";
+        string fileName = "example";
+        string extension = ".pgm";
+        string fullPath = imagePath + fileName + extension;
+
+        // counter up to 10 photos
+        int imageSaveCounter = 0;
+
+        // time variables to make photo every 2 seconds
+        time_t now;
+        time_t currentTime;
+        double timeConstantDiffrence = 2.0;
+
+        // constant values based on bienias's morda to prepare distance calculation
+        double focalLength;
+        double faceHeight = 14.5;
+        double distanceFromCamera = 50;
+        double faceWidthInPixels = 300;
+
+
+        string rootDir = "/home/reimu/git-projects/PBW_FaceRecognition/opencvTest";
+        GARecognizer *recognizer;
 private:
     Ui::Dialog *ui;
 
@@ -50,6 +75,9 @@ private:
 public slots:
     void processFrameAndUpdateGUI();
     void detectAndDisplay(Mat frame);
+    void saveFacePhoto(Mat inputFrame);
+    void calculateFocalLength();
+    double calculateDistanceFromCamera(double widthInPixels);
 
 private slots:
     void on_btnPauseOResume_clicked();
