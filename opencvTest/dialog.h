@@ -35,10 +35,9 @@ public:
     CascadeClassifier nose_cascade;
 
     // path to save images
-        string imagePath = "/Users/piotrbienias/Documents/opencvPhotos/";
         string fileName = "example";
         string extension = ".pgm";
-        string fullPath = imagePath + fileName + extension;
+        string fullPath = rootDir + "/" + fileName + extension;
 
         // counter up to 10 photos
         int imageSaveCounter = 0;

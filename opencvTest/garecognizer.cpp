@@ -29,7 +29,7 @@ string GARecognizer::estimateGender(Mat sample) {
 }
 
 string GARecognizer::estimateAgeRange(Mat sample) {
-    int predictedLabel = genderRecognizer->predict(sample);
+    int predictedLabel = ageRecognizer->predict(sample);
     if(predictedLabel < 0 || predictedLabel >= sizeof(ageRanges)/sizeof(string)) {
         return "N/A";
     }
@@ -83,7 +83,7 @@ void trainWithCSV(string rootDir) {
 
             int genderValue = isFemale(genderLabel) ? FEMALE : MALE;
             genderLabels.push_back(genderValue);
-            ageLabels.push_back(atoi(ageLabel.c_str()));
+            ageLabels.push_back(atoi(ageLabel.c_str()) + 2);
         }
     }
 

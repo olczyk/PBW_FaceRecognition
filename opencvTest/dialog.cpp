@@ -123,7 +123,7 @@ int calculateOrientation(int left, int right, int nose)
 }
 
 void Dialog::saveFacePhoto(Mat inputFrame) {
-    Mat grayScaleFrame;
+    //Mat grayScaleFrame;
     vector<int> compressionParams;
 
     compressionParams.push_back(CV_IMWRITE_PXM_BINARY);
@@ -131,11 +131,11 @@ void Dialog::saveFacePhoto(Mat inputFrame) {
 
     string newFileName = fileName + std::to_string(imageSaveCounter);
 
-    fullPath = imagePath + newFileName + extension;
+    fullPath = rootDir + "/" + newFileName + extension;
 
-    cvtColor(inputFrame, grayScaleFrame, CV_BGR2GRAY);
+    //cvtColor(inputFrame, grayScaleFrame, CV_BGR2GRAY);
 
-    if ( cv::imwrite(fullPath, grayScaleFrame, compressionParams) ) {
+    if ( cv::imwrite(fullPath, inputFrame, compressionParams) ) {
         imageSaveCounter++;
     }
 }
@@ -180,6 +180,26 @@ void Dialog::detectAndDisplay(Mat frame)
     {
         Mat faceROI = frame_gray(face);
 
+        //Draw the face
+        Mat frameOut = frame(Rect(face.x + 0.15 * face.width, face.y + 0.15 * face.height, 0.7 * face.width, 0.8 * face.height));
+
+        // resizing image
+        Size resizedImageSize(168, 192);
+        Mat resizedMat;
+        cvtColor(frameOut, frameOut, CV_RGB2GRAY);
+        cv::resize(frameOut, resizedMat, resizedImageSize);
+
+        time(&currentTime);
+
+        double seconds = difftime(currentTime, now);
+        //cout << seconds;
+        if ( imageSaveCounter < 10 && ( seconds > (double) imageSaveCounter * timeConstantDiffrence ) ) {
+            // uncomment below line to make 10 photos
+            if(fileName.length() > 0) saveFacePhoto(resizedMat);
+            imshow("output", resizedMat);
+        }
+        //           Mat imageToShow = imread("/Users/piotrbienias/Documents/opencvPhotos/example1.pgm", CV_LOAD_IMAGE_COLOR);
+        //           imshow("image", imageToShow);
 
         //In each face, detect eyes
         eyes_cascade.detectMultiScale(faceROI, eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30));
@@ -239,26 +259,7 @@ void Dialog::detectAndDisplay(Mat frame)
             eyes_cascade.detectMultiScale(faceROI, eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30));
             if( eyes.size() == 2)
             {
-                //Draw the face
-                Mat frameOut = frame(Rect(face.x + 0.15 * face.width, face.y + 0.15 * face.height, 0.7 * face.width, 0.8 * face.height));
 
-                // resizing image
-                Size resizedImageSize(168, 192);
-                Mat resizedMat;
-                cvtColor(frameOut, frameOut, CV_RGB2GRAY);
-                cv::resize(frameOut, resizedMat, resizedImageSize);
-
-                time(&currentTime);
-
-                double seconds = difftime(currentTime, now);
-                cout << seconds;
-                if ( imageSaveCounter < 10 && ( seconds > (double) imageSaveCounter * timeConstantDiffrence ) ) {
-                    // uncomment below line to make 10 photos
-                    //                saveFacePhoto(resizedMat);
-                    imshow("output", resizedMat);
-                }
-                //           Mat imageToShow = imread("/Users/piotrbienias/Documents/opencvPhotos/example1.pgm", CV_LOAD_IMAGE_COLOR);
-                //           imshow("image", imageToShow);
 
                 Point center(face.x + face.width/2, face.y + face.height/2);
                 ellipse(frame, center, Size( face.width/2, face.height/2), 0, 0, 360, Scalar( 255, 0, 0 ), 2, 8, 0);
@@ -283,7 +284,7 @@ void Dialog::detectAndDisplay(Mat frame)
                     circle(frame, eye_center, radius, Scalar( 255, 0, 255 ), 3, 8, 0);
                 }
                 // calculation of distance between eye centers, maybe will be useful, but not now ;)
-                //          line(frame, eyeCenters[0], eyeCenters[1], Scalar(255, 255, 255), 1, 8, 0);
+                          line(frame, eyeCenters[0], eyeCenters[1], Scalar(255, 255, 255), 1, 8, 0);
                 double distance = calculateDistance( eyeCenters[1], eyeCenters[0] );
                 eyeCenters[0].x = eyeCenters[0].x + distance / 4;
 
