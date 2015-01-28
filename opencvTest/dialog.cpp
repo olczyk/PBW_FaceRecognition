@@ -14,7 +14,7 @@ using namespace std;
 
 Dialog::Dialog(QWidget *parent) : QDialog(parent), ui(new Ui::Dialog)
 {
-    recognizer = new GARecognizer(rootDir);
+    //recognizer = new GARecognizer(rootDir);
 
     ui->setupUi(this);
 
@@ -23,7 +23,6 @@ Dialog::Dialog(QWidget *parent) : QDialog(parent), ui(new Ui::Dialog)
     tmrTimer = new QTimer(this);
     connect(tmrTimer, SIGNAL(timeout()), this, SLOT(processFrameAndUpdateGUI()));
     tmrTimer->start(20);
-
 }
 
 Dialog::~Dialog()
@@ -236,6 +235,16 @@ void Dialog::detectAndDisplay(Mat frame)
                 circle(frame, nose_center,nose_radius, Scalar(0,255,0),3,8,0);
             }
 
+
+
+            printf("%d %d %d", left_eye, right_eye, nose_position);
+            int offset = 20;
+            int count = sizeof(captions) / sizeof(*captions);
+
+            for (int i = 0; i < count; i++) {
+                drawCaption(captions[i], face, frame, i * offset);
+            }
+
             // string orientation_output_string = "Orientation: " + orientation_string + "degrees."; // '°' -> how to make this sign a string and output it on the screen ?
 
         }
@@ -284,22 +293,12 @@ void Dialog::detectAndDisplay(Mat frame)
                     circle(frame, eye_center, radius, Scalar( 255, 0, 255 ), 3, 8, 0);
                 }
                 // calculation of distance between eye centers, maybe will be useful, but not now ;)
-                          line(frame, eyeCenters[0], eyeCenters[1], Scalar(255, 255, 255), 1, 8, 0);
+                         // line(frame, eyeCenters[0], eyeCenters[1], Scalar(255, 255, 255), 1, 8, 0);
                 double distance = calculateDistance( eyeCenters[1], eyeCenters[0] );
                 eyeCenters[0].x = eyeCenters[0].x + distance / 4;
 
-                string captions[] = {
-                    "gender: " + recognizer->estimateGender(resizedMat),
-                    "age: " + recognizer->estimateAgeRange(resizedMat),
-                    "distance: " + to_string(distanceFromCamera),
-                    "orientation: " + to_string(calculateOrientation(left_eye, right_eye, nose_position))
-                };
-                int offset = 20;
-                int count = sizeof(captions) / sizeof(*captions);
 
-                for (int i = 0; i < count; i++) {
-                    drawCaption(captions[i], face, frame, i * offset);
-                }
+
             }
         }
         //Show what you got

@@ -53,6 +53,12 @@ public:
         double distanceFromCamera = 50;
         double faceWidthInPixels = 300;
 
+        string captions[4] = {
+            "gender: MALE",
+            "age: 18-25",
+            "distance: 50.3 cm",
+            "orientation: 8 degrees"
+        };
 
         string rootDir = "/home/reimu/git-projects/PBW_FaceRecognition/opencvTest";
         GARecognizer *recognizer;
