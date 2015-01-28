@@ -202,7 +202,7 @@ void Dialog::detectAndDisplay(Mat frame)
 
         //In each face, detect eyes
         eyes_cascade.detectMultiScale(faceROI, eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30));
-        nose_cascade.detectMultiScale(faceROI, noses, 1.1, 2, 0, Size(40,40));
+        nose_cascade.detectMultiScale(faceROI, noses, 1.1, 6, 0, Size(40,40));
         if( eyes.size() == 2)
         {
             Point leftTop(face.x, face.y);
@@ -237,7 +237,6 @@ void Dialog::detectAndDisplay(Mat frame)
 
 
 
-            printf("%d %d %d", left_eye, right_eye, nose_position);
             int offset = 20;
             int count = sizeof(captions) / sizeof(*captions);
 
@@ -271,11 +270,11 @@ void Dialog::detectAndDisplay(Mat frame)
 
 
                 Point center(face.x + face.width/2, face.y + face.height/2);
-                ellipse(frame, center, Size( face.width/2, face.height/2), 0, 0, 360, Scalar( 255, 0, 0 ), 2, 8, 0);
+            //    ellipse(frame, center, Size( face.width/2, face.height/2), 0, 0, 360, Scalar( 255, 0, 0 ), 2, 8, 0);
 
                 Point onePoint(face.x, face.y);
                 Point twoPoint(face.x + face.width, face.y + face.height);
-                rectangle(frame, onePoint, twoPoint, Scalar(0, 0, 0), 1, 8, 0);
+            //    rectangle(frame, onePoint, twoPoint, Scalar(0, 0, 0), 1, 8, 0);
 
                 double faceWidthInPixels = twoPoint.x - onePoint.x;
                 double distanceFromCamera = calculateDistanceFromCamera(faceWidthInPixels);
@@ -290,7 +289,7 @@ void Dialog::detectAndDisplay(Mat frame)
                     Point eye_center(face.x + eyes[j].x + eyes[j].width/2, face.y + eyes[j].y + eyes[j].height/2);
                     eyeCenters[j] = eye_center;
                     int radius = cvRound((eyes[j].width + eyes[j].height)*0.25);
-                    circle(frame, eye_center, radius, Scalar( 255, 0, 255 ), 3, 8, 0);
+            //        circle(frame, eye_center, radius, Scalar( 255, 0, 255 ), 3, 8, 0);
                 }
                 // calculation of distance between eye centers, maybe will be useful, but not now ;)
                          // line(frame, eyeCenters[0], eyeCenters[1], Scalar(255, 255, 255), 1, 8, 0);

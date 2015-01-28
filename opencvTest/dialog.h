@@ -35,7 +35,7 @@ public:
     CascadeClassifier nose_cascade;
 
     // path to save images
-        string fileName = "example";
+        string fileName = "Piotrek";
         string extension = ".pgm";
         string fullPath = rootDir + "/" + fileName + extension;
 
@@ -56,11 +56,11 @@ public:
         string captions[4] = {
             "gender: MALE",
             "age: 18-25",
-            "distance: 50.3 cm",
-            "orientation: 8 degrees"
+            "distance: 43 cm",
+            "orientation: 10 degrees"
         };
 
-        string rootDir = "/home/reimu/git-projects/PBW_FaceRecognition/opencvTest";
+        string rootDir = "../opencvTest";
         GARecognizer *recognizer;
 private:
     Ui::Dialog *ui;
